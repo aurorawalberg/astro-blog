@@ -10,5 +10,5 @@ I hold a bachelor's degree in Robotics and Intelligent Systems, with knowledge o
 Currently I'm working a lot on projects using React Server Components and the Next.js 13 App Router.
 
 <div>
-  <img src="src/assets/dev-girl.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration">
+  <img src="/assets/dev-girl.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration">
 </div>
