@@ -1,7 +1,7 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://aurorawalnberg.no/",
+  website: "https://aurorawalberg.no/",
   author: "Aurora Walberg",
   desc: "My fullstack developer blog",
   title: "aurorawalberg.no",
@@ -10,7 +10,7 @@ export const SITE: Site = {
   postPerPage: 3,
 };
 
-export const LOCALE = ["en-EN"]; // set to [] to use the environment default
+export const LOCALE = ["en-EN"];
 
 export const LOGO_IMAGE = {
   enable: false,
