@@ -250,4 +250,4 @@ That's it! Now we can test our internationalized React Server Components. This m
 
 ## Conclusion
 
-In this blog post, we have learned how to run tests with Vitest and RTL on internationalized React Server Components using next-international in Next.js 13. We have also learned how to mock the next-international functions we need to use in our tests. I hope this blog post has been helpful to you. Happy testing!
+In this blog post, I walked you through what I have learned about running tests with Vitest and RTL on internationalized React Server Components in Next.js 13. I hope this blog post has been helpful to you. Happy testing!
