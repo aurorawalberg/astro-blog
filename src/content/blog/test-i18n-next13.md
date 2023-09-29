@@ -72,7 +72,7 @@ Now we have set up Vitest with Jest and React Testing Library. We will configure
 
 ## Testing React Server Components
 
-Lets say we have an async React Server Component called `HelloWorld.tsx` that we want to test. It looks something like this:
+Lets say we have an async React Server Component called `HelloWorld.tsx` that we want to test. *Note*: When a server component isn't async, we can test it normally. However, if we are fetching async data, the components has to be async. In this case there is no data, but there could have been. It looks something like this:
 
 ```tsx
 // src/components/HelloWorld.tsx
@@ -131,6 +131,21 @@ describe('HelloWorld', () => {
 ```
 
 Now the test passes! We can also use the `renderServerComponent` function to test other async React Server Components.
+
+### Note on testing nested async React Server Components
+
+If you are testing an async server component that contains other async server components, the same error will occur. My fix for this so far is to mock the nested components. For example, if we have a `HelloWorldContainer.tsx` component that contains the `HelloWorld.tsx` component, we can mock the `HelloWorld.tsx` component in the test for `HelloWorldContainer.tsx` and test it separately. The test for `HelloWorldContainer.tsx` would contain a some kind of mock like this:
+
+```tsx
+vi.mock('./HelloWorld.tsx', () => {', () => {
+  return {
+    __esModule: true,
+    default: () => {
+      return <div />;
+    },
+  };
+});
+```
 
 ## Testing internationalized React Server Components
 
