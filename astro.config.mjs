@@ -10,9 +10,7 @@ export default defineConfig({
   site: "https://aurorawalberg.no/",
   integrations: [
     tailwind({
-      config: {
-        applyBaseStyles: false,
-      },
+      applyBaseStyles: false,
     }),
     react(),
     sitemap(),
@@ -38,4 +36,5 @@ export default defineConfig({
       exclude: ["@resvg/resvg-js"],
     },
   },
+  scopedStyleStrategy: "where",
 });

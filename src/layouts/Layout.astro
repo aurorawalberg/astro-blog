@@ -1,6 +1,7 @@
 ---
 import { SITE } from "@config";
 import "@styles/base.css";
+import { ViewTransitions } from "astro:transitions";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -21,12 +22,12 @@ const {
 } = Astro.props;
 
 const socialImageURL = new URL(
-  ogImage ? ogImage : SITE.ogImage,
+  ogImage ?? SITE.ogImage ?? "og.png",
   Astro.url.origin
 ).href;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -63,6 +64,8 @@ const socialImageURL = new URL(
       rel="stylesheet"
     />
 
+    <meta name="theme-color" content="" />
+
     {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
       // include google-site-verification tag in the heading
@@ -74,6 +77,8 @@ const socialImageURL = new URL(
         />
       )
     }
+
+    <ViewTransitions />
 
     <script is:inline src="/toggle-theme.js"></script>
   </head>

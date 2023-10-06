@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
@@ -41,9 +41,11 @@ const sortTagsPost = getSortedPosts(tagPosts);
 <Layout title={`Tag:${tag} | ${SITE.title}`}>
   <Header activeNav="tags" />
   <Main
-    pageTitle={`Tag:${tag}`}
+    pageTitle={[`Tag:`, `${tag}`]}
+    titleTransition={tag}
     pageDesc={`All the articles with the tag "${tag}".`}
   >
+    <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
       {
         sortTagsPost.map(({ data }) => (
