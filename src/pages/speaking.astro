@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import { SITE } from "@config";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Event from "@components/Event";
+import getSortedEvents from "@utils/getSortedEvents";
+import Hr from "@components/Hr.astro";
+
+const events = await getCollection("speaking");
+const sortedEvents = getSortedEvents(events);
+const pastEvents = sortedEvents.filter(event => event.data.completed);
+const upcomingEvents = sortedEvents.filter(event => !event.data.completed);
+---
+
+<Layout title={`Speaking | ${SITE.title}`}>
+  <Header activeNav="speaking" />
+  <Main pageTitle="Speaking" pageDesc="My speaking appearances.">
+    <div id="featured">
+      <h2>Upcoming</h2>
+      <ul>
+        {upcomingEvents.map(({ data }) => <Event frontmatter={data} />)}
+      </ul>
+    </div>
+    <Hr noPadding/>
+    <div id="featured">
+      <h2>Previous</h2>
+      <ul>
+        {pastEvents.map(({ data }) => <Event frontmatter={data} />)}
+      </ul>
+    </div>
+  </Main>
+  <Footer />
+</Layout>
+
+<style>
+  #featured {
+    @apply pb-3 pt-6;
+  }
+  #featured h2 {
+    @apply text-2xl font-semibold tracking-wide;
+  }
+</style>
