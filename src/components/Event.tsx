@@ -12,13 +12,19 @@ export default function Event({ frontmatter }: Props) {
   return (
     <li className="my-6">
       <h3 className="text-lg font-medium decoration-dashed">{organizer}</h3>
-      <a
-        target="_blank"
-        href={link}
-        className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 hover:underline focus-visible:no-underline focus-visible:underline-offset-0"
-      >
-        <h2>{name}</h2>
-      </a>
+      {link ? (
+        <a
+          target="_blank"
+          href={link}
+          className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 hover:underline focus-visible:no-underline focus-visible:underline-offset-0"
+        >
+          <h2>{name}</h2>
+        </a>
+      ) : (
+        <h2 className="inline-block text-lg font-medium text-skin-accent">
+          {name}
+        </h2>
+      )}
       <Datetime datetime={pubDatetime} />
       <p>{description}</p>
     </li>
