@@ -147,6 +147,32 @@ vi.mock('./HelloWorld.tsx', () => {', () => {
 });
 ```
 
+### Updated method
+
+Another solution is to follow the [recommended workaround](https://github.com/testing-library/react-testing-library/issues/1209#issuecomment-1569813305) By NickMcCurdy which includes using React Canary and testing with Suspense and async test-calls. Previously I had issues with this method, but it's working now after communicating with him to clarify the steps.
+
+If using this method your test calls will look like this:
+
+```tsx  
+// src/components/tests/HelloWorld.test.tsx
+...
+import { render } from '@testing-library/react';
+
+describe('HelloWorld', () => {
+  it('renders ', async () => {
+    render(
+      <Suspense>
+        <HelloWorld />
+      </Suspense>
+    );
+
+    expect(await screen.findByTestId('hello-world')).toHaveTextContent('Hello World');
+  });
+});
+```
+
+Note that you do not need to worry about nested async components with this method.
+
 ## Testing internationalized React Server Components
 
 Next-international provides methods for getting the current locale and setting the locale. It also provides `useI18n()` (for client components) and `getI18n()` (async method for server components) functions and hooks that can be used to translate text in your app.
