@@ -4,7 +4,7 @@ import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
 
 export interface Props {
-  activeNav?: "posts" | "tags" | "about" | "search" | 'speaking';
+  activeNav?: "posts" | "tags" | "about" | "search" | "speaking";
 }
 
 const { activeNav } = Astro.props;
@@ -24,7 +24,13 @@ const { activeNav } = Astro.props;
               height={LOGO_IMAGE.height}
             />
           ) : (
-            SITE.title
+            <a
+              href="/"
+              style="font-family: 'Dancing Script'; font-size: 2.5rem;"
+              class="logo whitespace-nowrap"
+            >
+              {SITE.title}
+            </a>
           )
         }
       </a>

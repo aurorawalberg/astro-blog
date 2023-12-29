@@ -4,7 +4,7 @@ export const SITE: Site = {
   website: "https://aurorawalberg.no/",
   author: "Aurora Walberg",
   desc: "My fullstack developer blog",
-  title: "aurorawalberg.no",
+  title: "Aurora Walberg",
   ogImage: "dev-girl.png",
   lightAndDarkMode: true,
   postPerPage: 3,
