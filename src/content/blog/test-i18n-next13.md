@@ -23,7 +23,7 @@ Please note that this method is not officially supported by Next.js or next-inte
 
 ## Pre-requisites
 
-This method applies to an existing Next.js 13 app that uses app router and next-international for i18n. If you don't have an existing app, you can create a starter app using the following command:
+This method applies to an existing Next.js 13 app that uses the App Router and next-international for i18n. If you don't have an existing app, you can create a starter app using the following command:
 
 ```bash
 npx create-next-app@latest
