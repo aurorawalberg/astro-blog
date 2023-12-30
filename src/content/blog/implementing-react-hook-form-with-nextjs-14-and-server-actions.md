@@ -1,6 +1,6 @@
 ---
 author: Aurora Walberg
-pubDatetime: 2023-12-12T15:22:00Z
+pubDatetime: 2023-12-30T15:22:00Z
 title: Implementing React Hook Form with Next.js 14 and Server Actions
 postSlug: implementing-react-hook-form-with-nextjs-14-and-server-actions
 featured: true
