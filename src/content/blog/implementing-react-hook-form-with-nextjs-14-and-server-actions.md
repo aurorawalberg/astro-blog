@@ -19,7 +19,7 @@ React Hook Form is a popular library for building forms in React. In this blog p
 
 There seems to be a lack of documentation on this topic, so I hope this blog post will be helpful to you. There also seems to be a misconception that we do not need React Hook Form now that we have the new React hooks such as `useFormStatus()` and `useFormState()`. However, React Hook Form still provides a lot of features that are not supported here, such as interactive client-side validation.
 
-We are going to be using Zod for validation and Prisma for our database. We will also be using Toast for displaying error messages. Lastly, we will use the new React hook `useOptimistic()` to add optimistic UI in the end.
+We are going to be using Zod for validation and Prisma for our database. We will also be using Toast for displaying error messages. Then we will use the new React hook `useOptimistic()` to add optimistic UI in the end.
 
 I do not have a separate repository for this blog post, but you can find working code [here](https://github.com/aurorawalberg/next14-remix-jokes-rebuild/blob/main/src/app/demo/forms/_components/ReactHookForm.tsx).
 
@@ -290,7 +290,7 @@ export default function ReactHookForm({ jokes }: { jokes: Joke[] }) {
   ...
 ```
 
-We pass the initial data and a function we can call to update data optimistically. We can use the `optimisticJokes` return value somewhere else to display the data.
+We pass the initial data and a function to update data optimistically. We can use the `optimisticJokes` return value somewhere else to display the data.
 
 Then we add the `addOptimisticJoke()` inside our `onSubmit()` function.
 
