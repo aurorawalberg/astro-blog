@@ -10,7 +10,6 @@ tags:
   - Next.js
   - React Hook Form
   - Server Actions
-ogImage: ""
 description:
   React Hook Form is a popular library for building interactive forms in React. In this blog post, I'll explain how to use React Hook Form with Next.js 14 and Server Actions.
 ---
