@@ -76,7 +76,7 @@ Lets start by making a React Hook Form. We will be using the `useForm()` hook to
   });
 ```
 
-Then let's add the form html and inputs. Our form will allow us to submit a joke to the database. We will be using the `register()` method to register the inputs. We will also be using the `isSubmitting` and `isValid` variables to disable the submit button when the form is submitting or invalid.
+Then let's add the form labels and inputs. Our form will allow us to submit a joke to the database. We will be using the `register()` method to register the inputs. We will also be using the `isSubmitting` and `isValid` variables to disable the submit button when the form is submitting or invalid.
 
 ```tsx
   return (
@@ -187,7 +187,7 @@ export const JokeSchema = z.object({
 export type JokeSchemaType = z.infer<typeof JokeSchema>;
 ```
 
-Next, we can display the errors in our html. They will appear after the field has been started and removed once the field is valid.
+Next, we can display the validation errors. They will appear after the field has been started, but not valid, and removed once the field is valid.
 
 ```tsx
   return (
@@ -195,12 +195,12 @@ Next, we can display the errors in our html. They will appear after the field ha
       <div>
         <label htmlFor="name">Name:</label>
         <input {...register('name')} id="name" name="name" type="text" />
-        {errors?.name && <p className="text-sm text-red">{errors?.name?.message}</p>}
+        {errors?.name && <p className="text-red">{errors?.name?.message}</p>}
       </div>
       <div>
         <label htmlFor="content">Content:</label>
         <textarea {...register('content')} id="content" name="content" />
-        {errors?.content && <p className="text-sm text-red">{errors?.content?.message}</p>}
+        {errors?.content && <p className="text-red">{errors?.content?.message}</p>}
       </div>
       ...
     </form>
@@ -242,7 +242,7 @@ export async function createJoke(data: JokeSchemaType) {
 
 It doesn't do much yet. It simply creates a joke in the database and revalidates the page. However this is now enough to make our form work!
 
-Note the `"use server` directive at the top of the file. This is what makes it a Server Action, allowing us to call it from the client. It's like a hidden API endpoint. Note also the `revalidatePath()` function. This is a new function in Next.js App Router that allows us to revalidate a page by path. It will update all parts of the page that have changed after the Server Action has been called.
+Note the `"use server` directive at the top of the file. This is what makes it a Server Action, allowing us to call it from the client. It's like a hidden API endpoint. Note also the `revalidatePath()` function. This is a new function in Next.js App Router that allows us to revalidate a page by path or tag. It will update all parts of the page that have changed after the Server Action has been called.
 
 ## Adding server-side validation
 
