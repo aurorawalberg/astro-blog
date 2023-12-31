@@ -19,9 +19,9 @@ React Hook Form is a popular library for building forms in React. In this blog p
 
 There seems to be a lack of documentation on this topic, so I hope this blog post will be helpful to you. There also seems to be a misconception that we do not need React Hook Form now that we have the new React hooks such as `useFormStatus()` and `useFormState()`. However, React Hook Form still provides a lot of features that are not supported here, such as interactive client-side validation.
 
-We are going to be using Zod for validation and Prisma for our database. We will also be using Toast for displaying error messages.
+We are going to be using Zod for validation and Prisma for our database. We will also be using Toast for displaying error messages. Lastly, we will use the new React hook `useOptimistic()` to add optimistic UI in the end.
 
-I do not have a separate repository for this blog post, but you can find working code [here](https://github.com/aurorawalberg/next14-remix-jokes-rebuild/blob/main/src/app/demo/forms/react-hook/page.tsx).
+I do not have a separate repository for this blog post, but you can find working code [here](https://github.com/aurorawalberg/next14-remix-jokes-rebuild/blob/main/src/app/demo/forms/_components/ReactHookForm.tsx).
 
 ## Table of contents
 
@@ -76,7 +76,7 @@ Lets start by making a React Hook Form. We will be using the `useForm()` hook to
   });
 ```
 
-Then let's add the form labels and inputs. Our form will allow us to submit a joke to the database. We will be using the `register()` method to register the inputs. We will also be using the `isSubmitting` and `isValid` variables to disable the submit button when the form is submitting or invalid.
+Then let's add the form labels and inputs. Our form will allow us to submit a joke to a database. We will be using the `register()` method to register the inputs. We will also be using the `isSubmitting` and `isValid` variables to disable the submit button when the form is submitting or invalid.
 
 ```tsx
   return (
@@ -89,11 +89,9 @@ Then let's add the form labels and inputs. Our form will allow us to submit a jo
         <label htmlFor="content">Content:</label>
         <textarea {...register('content')} id="content" name="content" />
       </div>
-      <div className="flex justify-end">
-        <button disabled={isSubmitting || !isValid} type="submit">
-          {isSubmitting ? 'Adding...' : 'Add'}
-        </button>
-      </div>
+      <button className="self-end" disabled={isSubmitting || !isValid} type="submit">
+        {isSubmitting ? 'Adding...' : 'Add'}
+      </button>
     </form>
   );
 ```
@@ -131,21 +129,19 @@ export default function ReactHookForm() {
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input {...register('name')} id="name" name="name" type="text" />
-      </div>
-      <div>
-        <label htmlFor="content">Content:</label>
-        <textarea {...register('content')} id="content" name="content" />
-      </div>
-      <div className="flex justify-end">
-        <button disabled={isSubmitting || !isValid} type="submit">
+      <form onSubmit={onSubmit}>
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input {...register('name')} id="name" name="name" type="text" />
+        </div>
+        <div>
+          <label htmlFor="content">Content:</label>
+          <textarea {...register('content')} id="content" name="content" />
+        </div>
+        <button className="self-end" disabled={isSubmitting || !isValid} type="submit">
           {isSubmitting ? 'Adding...' : 'Add'}
         </button>
-      </div>
-    </form>
+      </form>
   );
 }
 ```
@@ -156,8 +152,8 @@ To give the form interactive validation and utilize the `onChange` mode, let's a
 
 ```tsx
 
-...
 import { zodResolver } from '@hookform/resolvers/zod';
+...
 
 export default function ReactHookForm() {
   const {
@@ -191,19 +187,19 @@ Next, we can display the validation errors. They will appear after the field has
 
 ```tsx
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input {...register('name')} id="name" name="name" type="text" />
-        {errors?.name && <p className="text-red">{errors?.name?.message}</p>}
-      </div>
-      <div>
-        <label htmlFor="content">Content:</label>
-        <textarea {...register('content')} id="content" name="content" />
-        {errors?.content && <p className="text-red">{errors?.content?.message}</p>}
-      </div>
-      ...
-    </form>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input {...register('name')} id="name" name="name" type="text" />
+          {errors?.name && <p className="text-red">{errors?.name?.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="content">Content:</label>
+          <textarea {...register('content')} id="content" name="content" />
+          {errors?.content && <p className="text-red">{errors?.content?.message}</p>}
+        </div>
+        ...
+      </form>
   );
 ```
 
@@ -246,9 +242,10 @@ Note the `"use server` directive at the top of the file. This is what makes it a
 
 ## Adding server-side validation
 
-We can also use Zod to server-side validate the data. This is important because we don't want to trust the client. Let's also handle the case of our prisma query failing.
+We can also use Zod to server-side validate the data. This is important because we don't want to trust the client. Let's also handle the case of our Prisma query failing.
 
 ```tsx
+'use server';
 ...
 
 export async function createJoke(data: JokeSchemaType) {
@@ -277,6 +274,135 @@ export async function createJoke(data: JokeSchemaType) {
 ```
 
 And that's it. A fully functional form with client-side and server-side validation!
+
+## Adding optimistic UI
+
+We can also add optimistic UI to our form. This will make the form feel more responsive and interactive. We will be using the new `useOptimistic()` hook to do this.
+
+```tsx
+export default function ReactHookForm({ jokes }: { jokes: Joke[] }) {
+  const [optimisticJokes, addOptimisticJoke] = useOptimistic(
+    jokes,
+    (state: JokeSchemaType[], newJoke: JokeSchemaType) => {
+      return [...state, newJoke];
+    },
+  );
+  ...
+```
+
+We pass the initial data and a function we can call to update data optimistically. We can use the `optimisticJokes` return value somewhere else to display the data.
+
+Then we add the `addOptimisticJoke()` inside our `onSubmit()` function.
+
+```tsx
+  const onSubmit = handleSubmit(async data => {
+    addOptimisticJoke(data);
+    const response = await createJoke(data);
+    if (response?.error) {
+      toast.error(response.error);
+    } else {
+      toast.success('Joke added!');
+      reset();
+    }
+  });
+```
+
+Lastly, we update our createJoke function to revalidate on errors. This will remove the optimistic data if there is an error.
+
+```tsx
+'use server';
+...
+
+export async function createJoke(data: JokeSchemaType) {
+  const result = JokeSchema.safeParse(data);
+
+  if (!result.success) {
+    const errorMessages = result.error.issues.reduce((prev, issue) => {
+      return (prev += issue.message);
+    }, '');
+    revalidatePath('/');
+    return {
+      error: errorMessages,
+    };
+  }
+
+  try {
+    await prisma.joke.create({
+      data,
+    });
+  } catch (error) {
+    revalidatePath('/');
+    return {
+      error: 'SERVER ERROR',
+    };
+  }
+  revalidatePath('/');
+}
+```
+
+The final code for our React Hook Form could look something like this:
+
+```tsx
+'use client';
+
+...
+import React, { useOptimistic } from 'react';
+
+export default function ReactHookForm({ jokes }: { jokes: Joke[] }) {
+  const [optimisticJokes, addOptimisticJoke] = useOptimistic(
+    jokes,
+    (state: JokeSchemaType[], newJoke: JokeSchemaType) => {
+      return [...state, newJoke];
+    },
+  );
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<JokeSchemaType>({
+    mode: 'onChange',
+    resolver: zodResolver(JokeSchema),
+  });
+
+  const onSubmit = handleSubmit(async data => {
+    addOptimisticJoke(data);
+    const response = await createJoke(data);
+    if (response?.error) {
+      toast.error(response.error);
+    } else {
+      toast.success('Joke added!');
+      reset();
+    }
+  });
+
+  return (
+    <>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input {...register('name')} id="name" name="name" type="text" />
+          {errors?.name && <p className="text-red">{errors?.name?.message}</p>}
+        </div>
+        <div>
+          <label htmlFor="content">Content:</label>
+          <textarea {...register('content')} id="content" name="content" />
+          {errors?.content && <p className="text-red">{errors?.content?.message}</p>}
+        </div>
+        <button className="self-end" disabled={isSubmitting || !isValid} type="submit">
+          {isSubmitting ? 'Adding...' : 'Add'}
+        </button>
+      </form>
+      <JokesList jokes={optimisticJokes} />
+    </>
+  );
+}
+```
+
+Of course, add your own styling and make it look nice.
+
+A working example of this code can as mentioned be found [here](https://github.com/aurorawalberg/next14-remix-jokes-rebuild/blob/main/src/app/demo/forms/_components/ReactHookForm.tsx).
 
 ## Conclusion
 
