@@ -16,7 +16,7 @@ description:
 
 React Hook Form is a popular library for building forms in React. In this blog post, I'll explain how to use React Hook Form with Next.js 14 and Server Actions.
 
-There seems to be a lack of documentation on this topic, so I hope this blog post will be helpful to you. There also seems to be a misconception that we do not need React Hook Form now that we have the new React hooks such as `useFormStatus()` and `useFormState()`. However, React Hook Form still provides a lot of features that are not supported here, such as interactive client-side validation.
+There seems to be a misconception that we do not need React Hook Form now that we have the new React hooks such as `useFormStatus()` and `useFormState()`. However, React Hook Form still provides a lot of features that are not supported here, such as interactive client-side validation.
 
 We are going to be using Zod for validation and Prisma for our database. We will also be using Toast for displaying error messages. Then we will use the new React hook `useOptimistic()` to add optimistic UI in the end.
 
