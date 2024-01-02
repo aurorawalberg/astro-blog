@@ -31,6 +31,7 @@ const speaking = defineCollection({
       pubDatetime: z.date(),
       type: z.string(),
       link: z.string().optional(),
+      websiteLink: z.string().optional(),
       name: z.string(),
       completed: z.boolean(),
       ogImage: image()

@@ -6,11 +6,17 @@ export interface Props {
 }
 
 export default function Event({ frontmatter }: Props) {
-  const { name, link, pubDatetime, description, organizer } = frontmatter;
+  const { name, link, websiteLink, pubDatetime, description, organizer } =
+    frontmatter;
 
   return (
     <li className="my-6">
-      <h3 className="text-lg font-medium decoration-dashed">{organizer}</h3>
+      <h3 className="text-lg font-medium">{organizer}</h3>
+      {websiteLink && (
+        <a href={websiteLink} className="text-lg font-medium hover:underline">
+          {websiteLink}
+        </a>
+      )}
       {link ? (
         <a
           target="_blank"
