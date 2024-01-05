@@ -6,11 +6,10 @@ export interface Props {
 }
 
 export default function Event({ frontmatter }: Props) {
-  const { name, link, websiteLink, pubDatetime, description, organizer } =
-    frontmatter;
+  const { name, link, websiteLink, date, description, organizer } = frontmatter;
 
   return (
-    <li className="my-6">
+    <li className="my-6 flex flex-col gap-[1px]">
       <h3 className="text-lg font-medium">{organizer}</h3>
       {websiteLink && (
         <a href={websiteLink} className="text-lg font-medium hover:underline">
@@ -30,7 +29,7 @@ export default function Event({ frontmatter }: Props) {
           {name}
         </h2>
       )}
-      <Datetime datetime={pubDatetime} />
+      <Datetime hideTime={true} datetime={date} />
       <p>{description}</p>
     </li>
   );

@@ -28,8 +28,7 @@ const speaking = defineCollection({
   schema: ({ image }) =>
     z.object({
       organizer: z.string(),
-      pubDatetime: z.date(),
-      type: z.string(),
+      date: z.date(),
       link: z.string().optional(),
       websiteLink: z.string().optional(),
       name: z.string(),

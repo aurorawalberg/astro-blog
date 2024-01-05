@@ -1,7 +1,6 @@
 ---
 organizer: Trondheim Developer Conference 2023
-type: Conference Talk
-pubDatetime: 2023-10-23T08:00:00Z
+date: 2023-10-23T08:00:00Z
 name: "Astro: The New Era of Fast, Modern Websites that ships zero JavaScript by default"
 completed: true
 websiteLink: "https://2023.trondheimdc.no/"
